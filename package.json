@@ -1,0 +1,18 @@
+{
+  "name": "mood-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently -n SERVER,CLIENT -c yellow,cyan \"npm run server\" \"npm run client\"",
+    "server": "node server/server.js",
+    "client": "cd client && npm start",
+    "setup": "npm install && cd client && npm install"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "sentiment": "^5.0.2",
+    "uuid": "^9.0.0"
+  }
+}

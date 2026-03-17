@@ -1,0 +1,560 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --j-cream:        #F5F0E8;
+  --j-cream-card:   #FAF8F3;
+  --j-cream-note:   #F0EDD4;
+  --j-cream-sticky: #FEFCE8;
+
+  /* Brand */
+  --j-brown:        #8B6F47;
+  --j-brown-dark:   #6B5035;
+  --j-ink:          #2C3E6B;
+  --j-ink-light:    #5B6FA8;
+  --j-green:        #4A6741;
+  --j-red:          #C0392B;
+  --j-amber:        #D4874A;
+
+  /* Text — high-contrast hierarchy */
+  --j-text:         #2C1810;   /* primary — darkest ink */
+  --j-text-body:    #3D2B1F;   /* body copy */
+  --j-text-muted:   #5C4033;   /* secondary / muted labels */
+  --j-text-faint:   #7A5C44;   /* hints, counters, placeholders */
+  --j-text-ghost:   #9C7B5E;   /* true placeholder text */
+
+  /* Decorative */
+  --j-rule:         rgba(139, 111, 71, 0.11);
+  --j-margin:       rgba(200, 60, 60, 0.22);
+  --j-shadow:       2px 4px 14px rgba(60, 40, 20, 0.14), 0 1px 4px rgba(60, 40, 20, 0.08);
+  --j-shadow-lift:  5px 10px 26px rgba(60, 40, 20, 0.22), 0 2px 8px rgba(60, 40, 20, 0.14);
+
+  /* Fonts */
+  --j-font-display: 'Caveat', cursive;     /* title only */
+  --j-font-ui:      'Nunito', sans-serif;  /* nav, labels, buttons */
+  --j-font-body:    'Lora', Georgia, serif; /* journal content, notes */
+}
+
+/* ── RESET ─────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--j-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  background-color: #C8B89A;
+  color: var(--j-text-body);
+  background-image:
+    radial-gradient(ellipse 70% 90% at 10% 50%, rgba(139, 100, 50, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 90% 20%, rgba(100, 80, 40, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 60% 95%, rgba(80, 55, 25, 0.07) 0%, transparent 50%);
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────────── */
+
+/* Display font: Caveat used ONLY for the main journal title */
+.j-heading {
+  font-family: var(--j-font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2C1810;
+  text-shadow: 1px 1px 0 rgba(44, 24, 16, 0.1);
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* UI headings: Nunito — sections, cards */
+.j-heading-sm {
+  font-family: var(--j-font-ui);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2C1810;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+/* Form labels: Nunito 600 */
+.j-label {
+  font-family: var(--j-font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #4A3728;
+  display: block;
+  margin-bottom: 5px;
+  letter-spacing: 0.01em;
+}
+
+.j-muted { color: var(--j-text-muted); }
+.j-faint { color: var(--j-text-faint); font-size: 0.82rem; }
+
+/* ── PAPER / CARD COMPONENTS ───────────────────────────────────── */
+
+/* Main notebook page — ruled lines + red margin + noise */
+.j-page {
+  background-color: var(--j-cream);
+  background-image:
+    linear-gradient(to right, transparent 54px, var(--j-margin) 54px, var(--j-margin) 56px, transparent 56px),
+    repeating-linear-gradient(transparent, transparent 27px, var(--j-rule) 27px, var(--j-rule) 28px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  border-radius: 4px;
+  box-shadow: var(--j-shadow);
+  position: relative;
+  padding: 32px 32px 40px 72px;
+}
+
+@media (max-width: 640px) {
+  .j-page {
+    padding: 20px 16px 32px;
+    background-image:
+      repeating-linear-gradient(transparent, transparent 27px, var(--j-rule) 27px, var(--j-rule) 28px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  }
+}
+
+/* Paper card (lifted paper look) */
+.j-card {
+  background-color: var(--j-cream-card);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  border-radius: 12px;
+  box-shadow: var(--j-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* Page curl on bottom-right */
+.j-card-curl::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 36px; height: 36px;
+  background: linear-gradient(
+    315deg,
+    rgba(180, 160, 130, 0.55) 0%,
+    rgba(200, 180, 150, 0.3) 40%,
+    transparent 60%
+  );
+  pointer-events: none;
+  border-top-left-radius: 6px;
+}
+
+/* Sticky note */
+.j-sticky {
+  background: var(--j-cream-sticky);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  border-radius: 4px 4px 18px 4px;
+  box-shadow: 3px 4px 14px rgba(60, 40, 20, 0.18), inset 0 -2px 4px rgba(60, 40, 20, 0.04);
+  position: relative;
+}
+
+/* Ruled lines overlay for card */
+.j-ruled {
+  background-image: repeating-linear-gradient(
+    transparent, transparent 27px,
+    var(--j-rule) 27px, var(--j-rule) 28px
+  );
+  background-size: 100% 28px;
+}
+
+/* Sketched/dashed border */
+.j-sketched {
+  border: 2px dashed rgba(139, 111, 71, 0.45);
+  border-radius: 10px;
+}
+
+/* ── DECORATIVE ─────────────────────────────────────────────────── */
+
+/* Washi tape strips */
+.washi {
+  position: absolute;
+  height: 22px;
+  border-radius: 2px;
+  opacity: 0.78;
+  pointer-events: none;
+}
+.washi-top {
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-1.8deg);
+  width: 72px;
+}
+.washi-tr {
+  top: 12px;
+  right: -8px;
+  transform: rotate(90deg);
+  width: 64px;
+}
+.washi-blue  { background: repeating-linear-gradient(45deg, #93C5FD, #93C5FD 4px, #BFDBFE 4px, #BFDBFE 8px); }
+.washi-pink  { background: repeating-linear-gradient(45deg, #FDA4AF, #FDA4AF 4px, #FECACA 4px, #FECACA 8px); }
+.washi-green { background: repeating-linear-gradient(45deg, #86EFAC, #86EFAC 4px, #BBF7D0 4px, #BBF7D0 8px); }
+.washi-amber { background: repeating-linear-gradient(45deg, #FCD34D, #FCD34D 4px, #FDE68A 4px, #FDE68A 8px); }
+
+/* Coffee stain accent */
+.coffee-stain {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse,
+    rgba(139, 90, 40, 0.07) 30%,
+    rgba(139, 90, 40, 0.02) 70%,
+    transparent 100%
+  );
+}
+
+/* ── FORM ELEMENTS ─────────────────────────────────────────────── */
+
+.j-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(139, 111, 71, 0.45);
+  border-radius: 0;
+  padding: 5px 2px;
+  font-family: var(--j-font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1A0F0A;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.j-input:focus { border-bottom-color: #2C1810; }
+.j-input::placeholder { color: var(--j-text-ghost); font-weight: 400; font-style: italic; }
+
+.j-textarea {
+  background: transparent;
+  border: none;
+  font-family: var(--j-font-body);
+  font-size: 1rem;
+  line-height: 28px;
+  color: var(--j-text-body);
+  resize: none;
+  width: 100%;
+  outline: none;
+  padding: 0 2px;
+}
+.j-textarea::placeholder { color: var(--j-text-ghost); font-style: italic; }
+
+input[type='date'].j-input {
+  cursor: pointer;
+}
+input[type='date'].j-input::-webkit-calendar-picker-indicator {
+  opacity: 0.45;
+  cursor: pointer;
+  filter: sepia(1) saturate(0.5) brightness(0.5);
+}
+
+/* ── BUTTONS ───────────────────────────────────────────────────── */
+
+.j-btn {
+  font-family: var(--j-font-ui);
+  font-size: 1.05rem;
+  font-weight: 700;
+  background-color: #2C1810;
+  color: #FFF8EE;
+  border: none;
+  border-radius: 999px;
+  padding: 11px 28px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.12s, box-shadow 0.2s;
+  box-shadow: 2px 3px 10px rgba(44, 24, 16, 0.35);
+  letter-spacing: 0.02em;
+  width: 100%;
+  display: block;
+}
+.j-btn:hover:not(:disabled) {
+  background-color: #3D2B1F;
+  transform: translateY(-1px);
+  box-shadow: 3px 5px 16px rgba(44, 24, 16, 0.42);
+}
+.j-btn:disabled {
+  background-color: #B89E7A;
+  color: #FAF8F3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.j-btn-sm {
+  font-family: var(--j-font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  background-color: transparent;
+  color: #2C1810;
+  border: 1.5px solid rgba(44, 24, 16, 0.35);
+  border-radius: 999px;
+  padding: 5px 16px;
+  cursor: pointer;
+  transition: background-color 0.18s, border-color 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.01em;
+}
+.j-btn-sm:hover {
+  background-color: rgba(44, 24, 16, 0.07);
+  border-color: #2C1810;
+}
+
+/* ── NAVIGATION ────────────────────────────────────────────────── */
+
+.j-header {
+  background-color: var(--j-cream-note);
+  background-image:
+    repeating-linear-gradient(transparent, transparent 27px, var(--j-rule) 27px, var(--j-rule) 28px);
+  border-bottom: 2px solid rgba(139, 111, 71, 0.22);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.j-nav {
+  background-color: var(--j-cream-note);
+  border-bottom: 1.5px solid rgba(139, 111, 71, 0.25);
+  overflow-x: auto;
+  position: sticky;
+  top: 60px;
+  z-index: 40;
+}
+
+.j-tab {
+  font-family: var(--j-font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #5C4033;
+  padding: 10px 16px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.01em;
+}
+.j-tab:hover { color: #2C1810; }
+.j-tab-active {
+  color: #2C1810;
+  border-bottom-color: #2C1810;
+  font-weight: 700;
+}
+
+/* ── MOOD SELECTOR ─────────────────────────────────────────────── */
+
+.mood-btn {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 4px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+.mood-btn:hover {
+  transform: scale(1.06);
+  background-color: rgba(139, 111, 71, 0.07);
+}
+.mood-btn-selected {
+  background-color: rgba(139, 111, 71, 0.1);
+  transform: scale(1.1);
+}
+/* Hand-drawn circle ring */
+.mood-btn-selected::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 2.5px solid var(--j-brown);
+  border-radius: 50%;
+  opacity: 0.65;
+  box-shadow: 0 0 0 1px rgba(139, 111, 71, 0.12);
+}
+
+/* ── CALENDAR CELLS ────────────────────────────────────────────── */
+
+.cal-cell {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 1px 1px 3px rgba(60, 40, 20, 0.1);
+}
+.cal-cell:hover {
+  transform: scale(1.35) rotate(2deg);
+  box-shadow: 2px 4px 10px rgba(60, 40, 20, 0.28);
+  z-index: 10;
+  position: relative;
+}
+.cal-cell-empty {
+  background-color: rgba(139, 111, 71, 0.07);
+  border: 1px dashed rgba(139, 111, 71, 0.22);
+}
+
+/* ── FEEDBACK ──────────────────────────────────────────────────── */
+
+.j-error {
+  color: #9B1C1C;
+  background: rgba(155, 28, 28, 0.07);
+  border: 1.5px solid rgba(155, 28, 28, 0.28);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: var(--j-font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.j-success {
+  color: #3A5A30;
+  background: rgba(58, 90, 48, 0.09);
+  border: 1.5px solid rgba(58, 90, 48, 0.32);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: var(--j-font-ui);
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Sentiment badges */
+.j-badge-pos { background: rgba(58,90,48,0.13); color: #3A5A30; border-radius: 999px; padding: 2px 8px; font-size: 0.78rem; font-family: var(--j-font-ui); font-weight: 600; }
+.j-badge-neg { background: rgba(155,28,28,0.11); color: #9B1C1C; border-radius: 999px; padding: 2px 8px; font-size: 0.78rem; font-family: var(--j-font-ui); font-weight: 600; }
+.j-badge-neu { background: rgba(92,64,51,0.12); color: #5C4033; border-radius: 999px; padding: 2px 8px; font-size: 0.78rem; font-family: var(--j-font-ui); font-weight: 600; }
+
+/* ── ANIMATIONS ────────────────────────────────────────────────── */
+
+@keyframes paperSlideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-paper-in {
+  animation: paperSlideIn 0.38s ease forwards;
+}
+
+@keyframes inkDot {
+  0%   { transform: scale(0.2); opacity: 0.5; }
+  100% { transform: scale(3);   opacity: 0; }
+}
+
+/* ── LANDING PAGE ───────────────────────────────────────────────── */
+
+@keyframes penDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes floatNotebook {
+  0%, 100% { transform: translateY(0)    rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(-0.8deg); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Pen-draw SVG line */
+.landing-pen-line {
+  stroke-dasharray: 430;
+  stroke-dashoffset: 430;
+  animation: penDraw 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.65s forwards;
+}
+
+/* Pen nib dot fades in after line finishes */
+.landing-pen-dot {
+  opacity: 0;
+  animation: fadeSlideUp 0.25s ease 2s forwards;
+}
+
+/* Floating notebook */
+.landing-notebook-float {
+  animation: floatNotebook 4.5s ease-in-out infinite;
+}
+
+/* Generic slide-up for sections (applied with inline animationDelay) */
+.landing-slide-up {
+  opacity: 0;
+  animation: fadeSlideUp 0.72s cubic-bezier(0.2, 0, 0.3, 1) forwards;
+}
+
+/* CTA button — pill, dark ink, glows on hover */
+.landing-cta {
+  display: inline-block;
+  font-family: var(--j-font-ui);
+  font-size: 1.08rem;
+  font-weight: 700;
+  background-color: #2C1810;
+  color: #FFF8EE;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 34px;
+  cursor: pointer;
+  letter-spacing: 0.025em;
+  box-shadow: 3px 4px 16px rgba(44, 24, 16, 0.38);
+  transition: background-color 0.2s, transform 0.14s, box-shadow 0.2s;
+  opacity: 0;
+  animation: fadeSlideUp 0.6s ease forwards;
+}
+.landing-cta:hover {
+  background-color: #3D2B1F;
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 22px rgba(44, 24, 16, 0.48);
+}
+
+/* Full-width CTA on mobile */
+@media (max-width: 480px) {
+  .landing-cta {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Hide notebook on very small screens */
+.landing-notebook-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 600px) {
+  .landing-notebook-wrap {
+    display: none;
+  }
+}
+
+/* Corkboard section background */
+.landing-corkboard {
+  background-color: #C4A068;
+  background-image:
+    radial-gradient(ellipse 60% 80% at 18% 55%, rgba(160, 110, 38, 0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 82% 28%, rgba(120, 82, 28, 0.22) 0%, transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.62' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.22'/%3E%3C/svg%3E");
+}
+
+/* Feature card hover lifts it */
+.landing-feature-card {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  cursor: default;
+}
+.landing-feature-card:hover {
+  transform: rotate(0deg) translateY(-6px) scale(1.03) !important;
+  box-shadow: 5px 10px 28px rgba(60, 40, 20, 0.28);
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(139, 111, 71, 0.08); }
+::-webkit-scrollbar-thumb { background: rgba(92, 64, 51, 0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(92, 64, 51, 0.6); }
