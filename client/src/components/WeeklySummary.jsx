@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const BASE = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001';
+
 const MOODS = [
   { rating: 1, emoji: '😢', label: 'Very Sad',  color: '#ef4444' },
   { rating: 2, emoji: '😕', label: 'Sad',        color: '#f97316' },
@@ -33,7 +35,7 @@ export default function WeeklySummary({ entries }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/moods/summary/weekly')
+    axios.get(`${BASE}/api/summary`)
       .then(r => setSummary(r.data))
       .catch(console.error)
       .finally(() => setLoading(false));

@@ -7,6 +7,8 @@ import MoodChart from './MoodChart';
 import WeeklySummary from './WeeklySummary';
 import WordCloud from './WordCloud';
 
+const BASE = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001';
+
 const TABS = [
   { id: 'log',      label: 'Log Mood',  icon: '✏️' },
   { id: 'calendar', label: 'Calendar',  icon: '📅' },
@@ -31,7 +33,7 @@ export default function JournalApp() {
 
   const fetchEntries = async () => {
     try {
-      const res = await axios.get('/api/moods');
+      const res = await axios.get(`${BASE}/api/moods`);
       setEntries(res.data);
       setServerError(false);
     } catch {
@@ -100,7 +102,7 @@ export default function JournalApp() {
 
         {serverError && (
           <div className="j-error" style={{ marginBottom: 16 }}>
-            Cannot connect to server. Make sure it's running on port 3001.
+            Cannot connect to server. In development, make sure it's running on port 3001.
           </div>
         )}
 

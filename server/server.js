@@ -22,6 +22,12 @@ app.use(express.json());
 
 app.use('/api/moods', moodRoutes);
 
+// Alias used by the Vercel serverless function path /api/summary
+app.get('/api/summary', (req, res) => {
+  req.url = '/summary/weekly';
+  moodRoutes(req, res, () => {});
+});
+
 app.listen(PORT, () => {
   console.log(`\n🟢 Mood Tracker Server running at http://localhost:${PORT}\n`);
 });

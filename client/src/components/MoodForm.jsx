@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import axios from 'axios';
 
+const BASE = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3001';
+
 const MOODS = [
   { rating: 1, emoji: '😢', label: 'Very Sad',  color: '#ef4444', bg: 'rgba(239,68,68,0.08)'   },
   { rating: 2, emoji: '😕', label: 'Sad',        color: '#f97316', bg: 'rgba(249,115,22,0.08)'  },
@@ -59,7 +61,7 @@ export default function MoodForm({ onMoodLogged, entries }) {
     setLoading(true);
     setError('');
     try {
-      await axios.post('/api/moods', { rating, note, date });
+      await axios.post(`${BASE}/api/moods`, { rating, note, date });
       setSuccess(true);
       onMoodLogged();
       setNote('');
